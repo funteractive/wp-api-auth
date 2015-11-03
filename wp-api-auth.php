@@ -28,7 +28,10 @@ new WpApiAuth();
 class WpApiAuth
 {
   public function __construct() {
+    // set hooks
     add_action( 'admin_menu', array( &$this, 'admin_menu' ) );
+
+    $this->setup();
   }
 
   public function admin_menu() {
@@ -36,6 +39,16 @@ class WpApiAuth
   }
 
   public function render_admin_page() {
-    echo 'hogehoge';
+    $this->ga->render_admin_page();
+  }
+
+  private function setup() {
+    // Plugin Path
+    if ( !defined( 'WP_API_AUTH_DIR' ) ) {
+      define( 'WP_API_AUTH_DIR', plugin_dir_path( __FILE__ ) );
+    }
+
+    require_once( WP_API_AUTH_DIR . 'services/google-analytics.php' );
+    $this->ga = new WpApiAuth_GA();
   }
 }
