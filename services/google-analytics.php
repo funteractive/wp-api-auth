@@ -25,18 +25,12 @@ class WpApiAuth_GA
   public function render_admin_page() {
     if( isset( $_SESSION['access_token'] ) ) {
       $this->service = new Google_Service_Analytics( $this->client );
-      $startindex = 1;
-      $profiles = $this->service->management_profiles->listManagementProfiles( '~all', '~all', array( 'start-index' => $startindex ) );
-
-      $items = $profiles->getItems();
-
-      $totalresults = $profiles->getTotalResults();
-      var_dump($profiles);
-      var_dump($items);
-      var_dump($totalresults);
+      $accounts = $this->service->management_accounts->listManagementAccounts();
+      var_dump( $accounts->getItems() );
     } else {
       $authUrl = $this->client->createAuthUrl();
       echo '<a href="' . $authUrl . '" target="_blank">auth</a>';
     }
   }
+
 }
