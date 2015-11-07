@@ -23,7 +23,8 @@ class WpApiAuth_GA
   }
 
   public function render_admin_page() {
-    if( isset( $_SESSION['access_token'] ) ) {
+    if( isset( $_SESSION['access_token'] ) && $_SESSION['access_token'] ) {
+      $this->client->setAccessToken( $_SESSION['access_token'] );
       $this->service = new Google_Service_Analytics( $this->client );
       $accounts = $this->service->management_accounts->listManagementAccounts();
       var_dump( $accounts->getItems() );
