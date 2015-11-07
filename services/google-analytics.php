@@ -17,12 +17,27 @@ class WpApiAuth_GA
     $this->client->setScopes( 'https://www.googleapis.com/auth/analytics.readonly' );
 
     if( isset( $_GET['code'] ) ) {
-      echo $_GET['code']; exit;
+      $this->client->authenticate( $_GET['code'] );
+      $_SESSION['access_token'] = $this->client->getAccessToken();
     }
   }
 
   public function render_admin_page() {
-    $authUrl = $this->client->createAuthUrl();
-    echo '<a href="' . $authUrl . '" target="_blank">auth</a>';
+    if( isset( $_SESSION['access_token'] ) ) {
+      $data = $this->getUserFromToken( $_SESSION['access_token'] );
+      var_dump($data);
+    } else {
+      $authUrl = $this->client->createAuthUrl();
+      echo '<a href="' . $authUrl . '" target="_blank">auth</a>';
+    }
+  }
+
+  public function getUserFromToken( $token ) {
+    $ticket = $this->client->verifyIdToken( $token );
+    if ( $ticket ) {
+      $data = $ticket->getAttributes();
+      return $data; // user ID
+    }
+    return false;
   }
 }
