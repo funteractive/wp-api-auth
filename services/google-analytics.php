@@ -25,10 +25,15 @@ class WpApiAuth_GA
 
   public function render_admin_page() {
     if( isset( $_SESSION['access_token'] ) && $_SESSION['access_token'] ) {
-      $this->client->setAccessToken( $_SESSION['access_token'] );
-      $this->service = new Google_Service_Analytics( $this->client );
-      $accounts = $this->service->management_accounts->listManagementAccounts();
-      var_dump( $accounts->getItems() );
+      try {
+        $this->client->setAccessToken( $_SESSION['access_token'] );
+        $this->service = new Google_Service_Analytics( $this->client );
+        $accounts = $this->service->management_accounts->listManagementAccounts();
+        var_dump( $accounts->getItems() );
+      } catch( Google_Exception $e ) {
+        unset( $_SESSION['access_token'] );
+        echo $e->getMessage();
+      }
     } else {
       $authUrl = $this->client->createAuthUrl();
       echo '<a href="' . $authUrl . '" target="_blank">auth</a>';
