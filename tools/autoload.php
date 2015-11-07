@@ -30,7 +30,7 @@ function google_api_php_client_autoload_wpapiauth($className)
     // Maximum class file path depth in this project is 3.
     $classPath = array_slice($classPath, 0, 3);
   }
-  $filePath = dirname(__FILE__) . '/src/' . implode('/', $classPath) . '.php';
+  $filePath = WP_API_AUTH_DIR . '/vendor/google-api-php-client/src/' . implode('/', $classPath) . '.php';
   if (file_exists($filePath)) {
     require_once ($filePath);
   }

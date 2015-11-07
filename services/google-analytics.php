@@ -21,12 +21,12 @@ class WpApiAuth_GA
     } else {
       //$redirect_uri = 'http://' . $_SERVER['HTTP_HOST'] . '/wp-admin/options-general.php?page=wp-api-auth';
       $auth_url = $this->client->createAuthUrl();
-      header( 'Location: ' . filter_var( $auth_url, FILTER_SANITIZE_URL ) );
+      //header( 'Location: ' . filter_var( $auth_url, FILTER_SANITIZE_URL ) );
     }
   }
 
   public function render_admin_page() {
     $authUrl = $this->client->createAuthUrl();
-    echo '<a href="' . $authUrl . '">auth</a>';
+    echo '<a href="' . $authUrl . '" target="_blank">auth</a>';
   }
 }
