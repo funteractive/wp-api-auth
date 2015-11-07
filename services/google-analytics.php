@@ -15,6 +15,7 @@ class WpApiAuth_GA
     $this->client->setAuthConfigFile( WP_API_AUTH_DIR . 'client_secrets.json' );
     $this->client->setRedirectUri( 'http://' . $_SERVER['HTTP_HOST'] . '/wp-admin/options-general.php?page=wp-api-auth' );
     $this->client->setScopes( Google_Service_Analytics::ANALYTICS_READONLY );
+    $this->client->setAccessType( 'offline' );
 
     if( isset( $_GET['code'] ) ) {
       $this->client->authenticate( $_GET['code'] );
