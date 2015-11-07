@@ -10,7 +10,6 @@ License: GPL version 2 or later - http://www.gnu.org/licenses/old-licenses/gpl-2
 Version: 0.1
 */
 
-namespace WpApiAuth;
 
 // Don't allow plugin to be loaded directory
 if ( !defined( 'ABSPATH' ) )
@@ -27,7 +26,7 @@ if( !defined( 'WP_API_AUTH_VERSION' ) )
 new WpApiAuth();
 class WpApiAuth
 {
-  public function __construct() {
+  public function __construct(){
     // set hooks
     add_action( 'admin_menu', array( &$this, 'admin_menu' ) );
 
