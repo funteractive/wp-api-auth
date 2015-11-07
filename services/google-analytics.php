@@ -9,7 +9,7 @@ class WpApiAuth_GA
 
   public function __construct() {
     //require_once ( WP_API_AUTH_DIR . 'tools/autoload.php' );
-    //require_once ( WP_API_AUTH_DIR . 'vendor/google-api-php-client/src/Google/Client.php' );
+    require_once ( WP_API_AUTH_DIR . 'vendor/google-api-php-client/src/Google/Client.php' );
 
     session_start();
     $this->client = new Google_Client();
