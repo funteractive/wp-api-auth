@@ -13,8 +13,8 @@ class WpApiAuth_GA
     session_start();
     $this->client = new Google_Client();
     $this->client->setAuthConfigFile( WP_API_AUTH_DIR . 'client_secrets.json' );
+    $this->client->setRedirectUri('http://' . $_SERVER['HTTP_HOST'] . '/wp-admin/options-general.php?page=wp-api-auth');
     $this->client->setScopes( 'https://www.googleapis.com/auth/analytics.readonly' );
-    $this->client->setRedirectUri( 'urn:ietf:wg:oauth:2.0:oob' );
 
     if( isset( $_GET['code'] ) ) {
       echo $_GET['code']; exit;
