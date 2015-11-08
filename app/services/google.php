@@ -37,7 +37,6 @@ class WpApiAuth_Google
 
       // Get Google Analytics accounts.
       $accounts = $this->service->management_accounts->listManagementAccounts();
-      var_dump( $accounts );
     } else {
       $authUrl = $this->client->createAuthUrl();
       echo '<a class="button button-secondary" href="' . $authUrl . '" target="_blank">Authorized Plugin</a>';
