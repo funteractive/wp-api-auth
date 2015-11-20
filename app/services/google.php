@@ -33,6 +33,9 @@ class WpApiAuth_Google
         die( _( 'It\'s illegal input.' ) );
       }
       $this->reset();
+
+      $authUrl = $this->client->createAuthUrl();
+      echo '<a class="button button-secondary" href="' . $authUrl . '" target="_blank">' . _( 'Authorized Plugin' ) . '</a>';
     }
     // When have been authorized.
     elseif( isset( $_SESSION['access_token'] ) && $_SESSION['access_token'] ) {
