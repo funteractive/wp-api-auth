@@ -26,6 +26,14 @@ class WpApiAuth_Helper
       . '</div>';
   }
 
+  public function _( $string ) {
+    return __( $string, WP_AUTH_DOMAIN );
+  }
+
+  public function e( $string ) {
+    return _e( $string, WP_AUTH_DOMAIN );
+  }
+
   private function get_dismiss_button() {
     return '<button type="button" class="notice-dismiss"><span class="screen-reader-text">この通知を非表示にする</span></button>';
   }
