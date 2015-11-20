@@ -128,6 +128,7 @@ class WpApiAuth_Google
    */
   private function reset() {
     $this->client->revokeToken();
+    unset( $_SESSION['access_token'] );
   }
 
 }
