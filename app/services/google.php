@@ -11,6 +11,8 @@ class WpApiAuth_Google
 {
   private $service_name = 'google';
 
+  private $reset_nonce_action = "wp_api_auth_google_reset_nonce";
+
   public function __construct() {
     // Include helper class.
     require_once( WP_API_AUTH_DIR . 'app/helper.php' );
@@ -25,8 +27,15 @@ class WpApiAuth_Google
   }
 
   public function get_admin_page_html() {
+    // When reset token.
+    if( isset( $_POST["wp_api_auth_{$this->service_name}_reset"] ) ) {
+      if ( !isset( $_POST["wp_api_auth_{$this->service_name}_reset_nonce"] ) || !wp_verify_nonce( $_POST["wp_api_auth_{$this->service_name}_reset_nonce"], $this->reset_nonce_action ) ) {
+        die( _( 'It\'s illegal input.' ) );
+      }
+      $this->reset();
+    }
     // When have been authorized.
-    if( isset( $_SESSION['access_token'] ) && $_SESSION['access_token'] ) {
+    elseif( isset( $_SESSION['access_token'] ) && $_SESSION['access_token'] ) {
       try {
         $this->client->setAccessToken( $_SESSION['access_token'] );
         $this->service = new Google_Service_Analytics( $this->client );
@@ -36,10 +45,14 @@ class WpApiAuth_Google
       }
 
       // Get Google Analytics accounts.
-      $accounts = $this->service->management_accounts->listManagementAccounts();
-    } else {
+      //$accounts = $this->service->management_accounts->listManagementAccounts();
+      $nonce = wp_create_nonce( $this->reset_nonce_action );
+      echo '<input type="hidden" name="wp_api_auth_' . $this->service_name . '_reset_nonce" value="' . $nonce . '" />';
+      echo '<input type="submit" name="wp_api_auth_' . $this->service_name . '_reset" class="button button-secondary" value="' . _( 'Clear Authorization' ) . '" />';
+    }
+    else {
       $authUrl = $this->client->createAuthUrl();
-      echo '<a class="button button-secondary" href="' . $authUrl . '" target="_blank">Authorized Plugin</a>';
+      echo '<a class="button button-secondary" href="' . $authUrl . '" target="_blank">' . _( 'Authorized Plugin' ) . '</a>';
     }
   }
 
@@ -108,6 +121,13 @@ class WpApiAuth_Google
     }
 
     $this->client->refreshToken( $token['refresh_token'] );
+  }
+
+  /**
+   * Revoke all tokens.
+   */
+  private function reset() {
+    $this->client->revokeToken();
   }
 
 }
