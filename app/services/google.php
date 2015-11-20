@@ -47,7 +47,10 @@ class WpApiAuth_Google
       }
 
       // Get Google Analytics accounts.
-      //$accounts = $this->service->management_accounts->listManagementAccounts();
+      $accounts = $this->service->management_accounts->listManagementAccounts();
+      if( $accounts )
+        echo '<p>Authorized as ' . esc_html( $accounts->username ) . '</p>';
+
       $nonce = wp_create_nonce( $this->reset_nonce_action );
       echo '<input type="hidden" name="wp_api_auth_' . $this->service_name . '_reset_nonce" value="' . $nonce . '" />';
       echo '<input type="submit" name="wp_api_auth_' . $this->service_name . '_reset" class="button button-secondary" value="' . _( 'Clear Authorization' ) . '" />';
