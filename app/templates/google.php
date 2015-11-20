@@ -10,6 +10,6 @@ $google = new WpApiAuth_Google();
 ?>
 
 <h3><?php _e( 'Google Analytics' ); ?></h3>
-<form action="" method="post">
+<form action="./" method="post">
   <?php echo $google->get_admin_page_html(); ?>
 </form>
