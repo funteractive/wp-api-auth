@@ -34,8 +34,7 @@ class WpApiAuth_Google
       }
       $this->reset();
 
-      $authUrl = $this->client->createAuthUrl();
-      echo '<a class="button button-secondary" href="' . $authUrl . '">' . _( 'Authorized Plugin' ) . '</a>';
+      echo $this->get_authorize_button_html();
     }
     // When have been authorized.
     elseif( isset( $_SESSION['access_token'] ) && $_SESSION['access_token'] ) {
@@ -54,8 +53,7 @@ class WpApiAuth_Google
       echo '<input type="submit" name="wp_api_auth_' . $this->service_name . '_reset" class="button button-secondary" value="' . _( 'Clear Authorization' ) . '" />';
     }
     else {
-      $authUrl = $this->client->createAuthUrl();
-      echo '<a class="button button-secondary" href="' . $authUrl . '">' . _( 'Authorized Plugin' ) . '</a>';
+      echo $this->get_authorize_button_html();
     }
   }
 
@@ -133,6 +131,16 @@ class WpApiAuth_Google
     $this->client->revokeToken();
     if( isset( $_SESSION['access_token'] ) )
       unset( $_SESSION['access_token'] );
+  }
+
+  /**
+   * Return button to authorize plugin.
+   *
+   * @return string
+   */
+  private function get_authorize_button_html() {
+    $authUrl = $this->client->createAuthUrl();
+    return '<a class="button button-secondary" href="' . $authUrl . '">' . _( 'Authorize Plugin' ) . '</a>';
   }
 
 }
