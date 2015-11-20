@@ -14,6 +14,7 @@ class WpApiAuth_Google
   private $reset_nonce_action = "wp_api_auth_google_reset_nonce";
 
   public function __construct() {
+
     // Include helper class.
     require_once( WP_API_AUTH_DIR . 'app/helper.php' );
     $this->helper = new WpApiAuth_Helper();

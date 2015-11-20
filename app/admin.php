@@ -20,6 +20,7 @@ class WpApiAuth_Admin
 
     // Set hooks
     add_action( 'admin_menu', array( &$this, 'admin_menu' ) );
+    add_action( 'admin_notices', array( &$this, 'admin_notices' ) );
   }
 
   /**
@@ -33,6 +34,12 @@ class WpApiAuth_Admin
       'wp-api-auth',
       array( $this, 'render_admin_page' )
     );
+  }
+
+  public function admin_notices() {
+    $class = "error";
+    $message = "Error in saving";
+    echo"<div class=\"$class\"> <p>$message</p></div>";
   }
 
   /**
