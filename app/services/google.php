@@ -35,7 +35,7 @@ class WpApiAuth_Google
       $this->reset();
 
       $authUrl = $this->client->createAuthUrl();
-      echo '<a class="button button-secondary" href="' . $authUrl . '" target="_blank">' . _( 'Authorized Plugin' ) . '</a>';
+      echo '<a class="button button-secondary" href="' . $authUrl . '">' . _( 'Authorized Plugin' ) . '</a>';
     }
     // When have been authorized.
     elseif( isset( $_SESSION['access_token'] ) && $_SESSION['access_token'] ) {
@@ -56,7 +56,7 @@ class WpApiAuth_Google
     }
     else {
       $authUrl = $this->client->createAuthUrl();
-      echo '<a class="button button-secondary" href="' . $authUrl . '" target="_blank">' . _( 'Authorized Plugin' ) . '</a>';
+      echo '<a class="button button-secondary" href="' . $authUrl . '">' . _( 'Authorized Plugin' ) . '</a>';
     }
   }
 
