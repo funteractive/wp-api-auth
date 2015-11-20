@@ -36,10 +36,15 @@ class WpApiAuth_Admin
     );
   }
 
+  /**
+   * Display notices.
+   */
   public function admin_notices() {
-    $class = "error";
-    $message = "Error in saving";
-    echo"<div class=\"$class\"> <p>$message</p></div>";
+    if( $notices = get_option( WP_API_AUTH_NOTICE ) ) {
+      $notices = unserialize( $notices );
+      var_dump($notices);
+      //echo sprintf( '<div class="%s"><p>%s</p></div>', $class, $message );
+    }
   }
 
   /**
