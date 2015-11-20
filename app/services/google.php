@@ -87,7 +87,7 @@ class WpApiAuth_Google
           'class' => 'error',
           'message' => '認証完了！'
         );
-        add_option( serialize( $notices ), WP_API_AUTH_NOTICE );
+        add_option( WP_API_AUTH_NOTICE, serialize( $notices ) );
 
         $this->save_access_token( $access_token );
         $_SESSION['access_token'] = $access_token;
