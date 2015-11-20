@@ -140,6 +140,8 @@ class WpApiAuth_Google
     $this->client->revokeToken();
     if( isset( $_SESSION['access_token'] ) )
       unset( $_SESSION['access_token'] );
+
+    delete_option( WP_API_AUTH_NOTICE );
   }
 
   /**
