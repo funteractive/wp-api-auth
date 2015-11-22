@@ -34,7 +34,7 @@ class WpApiAuth_Google
     // When reset token.
     if( isset( $_POST["wp_api_auth_{$this->service_name}_reset"] ) ) {
       if ( !isset( $_POST["wp_api_auth_{$this->service_name}_reset_nonce"] ) || !wp_verify_nonce( $_POST["wp_api_auth_{$this->service_name}_reset_nonce"], $this->reset_nonce_action ) ) {
-        die( _( 'It\'s illegal input.' ) );
+        die( $this->helper->_( 'It\'s illegal input.' ) );
       }
       $this->reset();
 
@@ -53,11 +53,11 @@ class WpApiAuth_Google
       // Get Google Analytics accounts.
       $accounts = $this->service->management_accounts->listManagementAccounts();
       if( $accounts )
-        echo '<p>' . sprintf( _( 'Authorized as %s' ), $accounts->username ) . '</p>';
+        echo '<p>' . sprintf( $this->helper->_( 'Authorized as %s' ), $accounts->username ) . '</p>';
 
       $nonce = wp_create_nonce( $this->reset_nonce_action );
       echo '<input type="hidden" name="wp_api_auth_' . $this->service_name . '_reset_nonce" value="' . $nonce . '" />';
-      echo '<input type="submit" name="wp_api_auth_' . $this->service_name . '_reset" class="button button-secondary" value="' . _( 'Clear Authorization' ) . '" />';
+      echo '<input type="submit" name="wp_api_auth_' . $this->service_name . '_reset" class="button button-secondary" value="' . $this->helper->_( 'Clear Authorization' ) . '" />';
     }
     else {
       echo $this->get_authorize_button_html();
@@ -96,7 +96,7 @@ class WpApiAuth_Google
         $_SESSION['access_token'] = $access_token;
       }
     } catch( Google_Exception $e ) {
-      echo $this->helper( $e->getMessage() );
+      echo $e->getMessage();
     }
   }
 
@@ -155,7 +155,7 @@ class WpApiAuth_Google
    */
   private function get_authorize_button_html() {
     $authUrl = $this->client->createAuthUrl();
-    return '<a class="button button-secondary" href="' . $authUrl . '">' . _( 'Authorize Plugin' ) . '</a>';
+    return '<a class="button button-secondary" href="' . $authUrl . '">' . $this->helper->_( 'Authorize Plugin' ) . '</a>';
   }
 
 }
