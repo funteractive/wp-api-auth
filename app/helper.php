@@ -10,31 +10,11 @@ class WpApiAuth_Helper
     return 'wpapi_token_' . $service;
   }
 
-  public function get_flash_updated( $msg ) {
-    return
-      '<div class="updated notice is-dismissible">'
-      . nl2br( esc_html( $msg ) )
-      . $this->get_dismiss_button()
-      . '</div>';
-  }
-
-  public function get_flash_error( $msg ) {
-    return
-      '<div class="error is-dismissible">'
-      . nl2br( esc_html( $msg ) )
-      . $this->get_dismiss_button()
-      . '</div>';
-  }
-
   public function _( $string ) {
     return __( $string, WP_AUTH_DOMAIN );
   }
 
   public function e( $string ) {
     return _e( $string, WP_AUTH_DOMAIN );
-  }
-
-  private function get_dismiss_button() {
-    return '<button type="button" class="notice-dismiss"><span class="screen-reader-text">この通知を非表示にする</span></button>';
   }
 }

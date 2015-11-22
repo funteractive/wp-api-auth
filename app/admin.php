@@ -20,7 +20,6 @@ class WpApiAuth_Admin
 
     // Set hooks
     add_action( 'admin_menu', array( &$this, 'admin_menu' ) );
-    add_action( 'admin_notices', array( &$this, 'admin_notices' ) );
   }
 
   /**
@@ -34,17 +33,6 @@ class WpApiAuth_Admin
       'wp-api-auth',
       array( $this, 'render_admin_page' )
     );
-  }
-
-  /**
-   * Display notices.
-   */
-  public function admin_notices() {
-    if( $notices = get_option( WP_API_AUTH_NOTICE ) ) {
-      $notices = unserialize( $notices );
-      var_dump($notices);
-      //echo sprintf( '<div class="%s"><p>%s</p></div>', $class, $message );
-    }
   }
 
   /**
