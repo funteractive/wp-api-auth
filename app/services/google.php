@@ -28,9 +28,6 @@ class WpApiAuth_Google
   }
 
   public function get_admin_page_html() {
-    // Delete Error Message.
-    delete_option( WP_API_AUTH_NOTICE );
-
     // When reset token.
     if( isset( $_POST["wp_api_auth_{$this->service_name}_reset"] ) ) {
       if ( !isset( $_POST["wp_api_auth_{$this->service_name}_reset_nonce"] ) || !wp_verify_nonce( $_POST["wp_api_auth_{$this->service_name}_reset_nonce"], $this->reset_nonce_action ) ) {
