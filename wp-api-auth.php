@@ -46,6 +46,16 @@ class WpApiAuth
       define( 'WP_API_AUTH_DIR', plugin_dir_path( __FILE__ ) );
     }
 
+    // Plugin Domain
+    if( !defined( 'WP_AUTH_DOMAIN' ) ) {
+      define( 'WP_AUTH_DOMAIN', 'wp-api-auth' );
+    }
+
+    // Notice Name
+    if( !defined( 'WP_API_AUTH_NOTICE' ) ) {
+      define('WP_API_AUTH_NOTICE', 'wp_api_auth_notice');
+    }
+
     // Autoloader
     require_once ( WP_API_AUTH_DIR . 'vendor/autoload.php' );
 

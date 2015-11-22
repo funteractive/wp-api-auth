@@ -14,6 +14,7 @@ class WpApiAuth_Google
   private $reset_nonce_action = "wp_api_auth_google_reset_nonce";
 
   public function __construct() {
+
     // Include helper class.
     require_once( WP_API_AUTH_DIR . 'app/helper.php' );
     $this->helper = new WpApiAuth_Helper();
@@ -27,15 +28,17 @@ class WpApiAuth_Google
   }
 
   public function get_admin_page_html() {
+    // Delete Error Message.
+    delete_option( WP_API_AUTH_NOTICE );
+
     // When reset token.
     if( isset( $_POST["wp_api_auth_{$this->service_name}_reset"] ) ) {
       if ( !isset( $_POST["wp_api_auth_{$this->service_name}_reset_nonce"] ) || !wp_verify_nonce( $_POST["wp_api_auth_{$this->service_name}_reset_nonce"], $this->reset_nonce_action ) ) {
-        die( _( 'It\'s illegal input.' ) );
+        die( $this->helper->_( 'It\'s illegal input.' ) );
       }
       $this->reset();
 
-      $authUrl = $this->client->createAuthUrl();
-      echo '<a class="button button-secondary" href="' . $authUrl . '">' . _( 'Authorized Plugin' ) . '</a>';
+      echo $this->get_authorize_button_html();
     }
     // When have been authorized.
     elseif( isset( $_SESSION['access_token'] ) && $_SESSION['access_token'] ) {
@@ -48,14 +51,16 @@ class WpApiAuth_Google
       }
 
       // Get Google Analytics accounts.
-      //$accounts = $this->service->management_accounts->listManagementAccounts();
+      $accounts = $this->service->management_accounts->listManagementAccounts();
+      if( $accounts )
+        echo '<p>' . sprintf( $this->helper->_( 'Authorized as %s' ), $accounts->username ) . '</p>';
+
       $nonce = wp_create_nonce( $this->reset_nonce_action );
       echo '<input type="hidden" name="wp_api_auth_' . $this->service_name . '_reset_nonce" value="' . $nonce . '" />';
-      echo '<input type="submit" name="wp_api_auth_' . $this->service_name . '_reset" class="button button-secondary" value="' . _( 'Clear Authorization' ) . '" />';
+      echo '<input type="submit" name="wp_api_auth_' . $this->service_name . '_reset" class="button button-secondary" value="' . $this->helper->_( 'Clear Authorization' ) . '" />';
     }
     else {
-      $authUrl = $this->client->createAuthUrl();
-      echo '<a class="button button-secondary" href="' . $authUrl . '">' . _( 'Authorized Plugin' ) . '</a>';
+      echo $this->get_authorize_button_html();
     }
   }
 
@@ -86,7 +91,7 @@ class WpApiAuth_Google
         $_SESSION['access_token'] = $access_token;
       }
     } catch( Google_Exception $e ) {
-      echo $this->helper( $e->getMessage() );
+      echo $e->getMessage();
     }
   }
 
@@ -130,9 +135,22 @@ class WpApiAuth_Google
    * Revoke all tokens.
    */
   private function reset() {
+    // Revoke access token.
     $this->client->revokeToken();
+
+    // Unset access token in session.
     if( isset( $_SESSION['access_token'] ) )
       unset( $_SESSION['access_token'] );
+  }
+
+  /**
+   * Return button to authorize plugin.
+   *
+   * @return string
+   */
+  private function get_authorize_button_html() {
+    $authUrl = $this->client->createAuthUrl();
+    return '<a class="button button-secondary" href="' . $authUrl . '">' . $this->helper->_( 'Authorize Plugin' ) . '</a>';
   }
 
 }
