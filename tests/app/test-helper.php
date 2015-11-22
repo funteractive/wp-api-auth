@@ -4,8 +4,13 @@ require __DIR__ . '/../../app/helper.php';
 
 class HelperTest extends WP_UnitTestCase {
 
-  public function setup() {
+  public function setUp() {
+    parent::setUp();
     $this->helper = new WpApiAuth_Helper();
+  }
+
+  public function tearDown() {
+    parent::tearDown();
   }
 
   public function test_get_token_option_name() {
@@ -27,4 +32,3 @@ class HelperTest extends WP_UnitTestCase {
     $this->helper->e('hoge');
   }
 }
-
